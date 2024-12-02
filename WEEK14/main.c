@@ -137,19 +137,29 @@ int main(int argc, const char * argv[]) {
     int turn=0;
 
 // ----- EX. 1 : Preparation------------
-    srand(unsigned(time(NULL)));
+    srand((unsigned)time(NULL));
     opening();
 // ----- EX. 1 : Preparation------------
 
-// ----- EX. 2 : structuring ------------ //해야 돼 
+// ----- EX. 2 : structuring ------------
     //step1 : initialization
     //step1-1 : board initialization
+    
+    //step2 : game start, turn loop
+    //step2_1 : status printing
+    //step2_2 : rolling die
+    //step 2-3. moving
+    //step 2-4. coin
+    //step 2-5. end process 
+    
+    //step 3. game end process
+    
     board_initBoard();
 
 // ----- EX. 4 : player ------------
     //step1-2 : initialize player
     for (i=0;i<N_PLAYER;i++)
-    {
+    {	
         player_position[i] = 0;
         player_coin[i] = 0;
         player_status[i] = PLAYERSTATUS_LIVE;
@@ -185,18 +195,33 @@ int main(int argc, const char * argv[]) {
         printf("%s turn!! ", player_name[turn]);
         printf("Press any key to roll a die!\n");
         scanf("%d", &dum);
-        fflush(stdin);
+        fflush(stdin); //입력 버퍼 지우기용 
 // ----- EX. 4 : player ------------
         dieResult = rolldie();
         
-        
         //step 2-3. moving
-   
+   		player_position[turn] = player_position[turn] + dieResult;
+        if (player_position[turn] >= N_BOARD) {
+    	printf("예외 상황에 대한 대처는 뭐 어떻게 하는거야?");
+		}
+		printf("Die result: %d, %s moved to %d!\n", dieResult, player_name[turn],player_position[turn]); 
+        
         //step 2-4. coin
-    
+    	coinResult=board_getBoardCoin(player_position[turn]);
+    	if(coinResult>0){
+    		player_coin[turn]+=coinResult;
+			printf("%s coin is %d\n", player_name[turn], coinResult);
+		}
+		    	
         
         //step 2-5. end process
-    
+    	if (player_position[turn] == N_BOARD - 1) {
+    	player_status[turn] = PLAYERSTATUS_END;
+    	printf("GAME END");
+    	}
+    	
+    	turn = (turn + 1) % N_PLAYER;
+    	
 // ----- EX. 6 : game end ------------
     } while(game_end() == 0);
     

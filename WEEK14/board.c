@@ -54,10 +54,18 @@ int board_initBoard(void)
     
     for(i=0;i<N_COINPOS;i++)
     {    	
-    	while(board_coin[i] =1)
+    	int randomcoinpos;
+    	int coinpos;
+    	while(1)
     	{
-    		int randomcoinpos;
     		randomcoinpos = rand()%N_BOARD;
+    		
+    		if(board_coin[randomcoinpos] == 0){
+    			coinpos=(rand()%MAX_COIN)+1;
+    			
+    			board_coin[randomcoinpos]=coinpos;
+    			break;
+			}
 		}
 	}
     
