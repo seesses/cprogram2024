@@ -52,7 +52,13 @@ int board_initBoard(void)
         board_coin[i] = 0;
     }
     
-    for(i=0;i<N_COINPOS;i++)
+    
+// ----- EX. 5 : shark ------------
+    shark_position = SHARK_INITPOS;
+// ----- EX. 5 : shark ------------
+
+    //coin allocation
+   for(i=0;i<N_COINPOS;i++)
     {    	
     	int randomcoinpos;
     	int coinpos;
@@ -69,13 +75,6 @@ int board_initBoard(void)
 		}
 	}
     
-// ----- EX. 5 : shark ------------
-    shark_position = SHARK_INITPOS;
-// ----- EX. 5 : shark ------------
-
-    //coin allocation
-   
-    
     return N_COINPOS;
 }
 // ----- EX. 3 : board ------------
@@ -84,8 +83,23 @@ int board_initBoard(void)
 // ----- EX. 5 : shark ------------
 int board_stepShark(void)
 {
-
+	int i;
+	
+	int aftershark; //상어가 이동할 칸의 변수 
+	aftershark=rand()%MAX_SHARKSTEP+1; // move to  1 ~ MAX_SHARKSTEP 
+	
+	for (i=0; i<aftershark; i++) {
+        int current_position;
+		current_position=shark_position+i; 
+        board_status[current_position] = BOARDSTATUS_NOK; 
+    }
+	
+	shark_position+=aftershark;
+	
+	return shark_position; 
 }
+
+
 // ----- EX. 5 : shark ------------
 
 
