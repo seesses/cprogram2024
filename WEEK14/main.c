@@ -149,6 +149,10 @@ int getWinner(void)
     		{
     			max_coin=player_coin[i];
     			winner=i;
+			}else if(winner != -1 &&player_coin[i] == max_coin){
+				if(player_position[i]<player_position[winner]){
+					winner=i;
+				}
 			}
 		}
 		
@@ -256,7 +260,7 @@ int main(int argc, const char * argv[]) {
     	
     	turn = (turn + 1) % N_PLAYER;
     	
-    	if(turn==0)
+    	if(turn==0 || game_end() == 1)
     	{
     		int shark_pos=board_stepShark();
     		printf("Shark moved to %i\n", shark_pos);
